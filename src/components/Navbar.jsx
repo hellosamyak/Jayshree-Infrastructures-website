@@ -20,11 +20,11 @@ import {
   Briefcase,
   Newspaper,
   Megaphone,
-  Menu, // Added for mobile toggle
-  X, // Added for mobile close
+  Menu,
+  X,
 } from "lucide-react";
 
-// The menu data structure remains the same
+// --- Data Structure (Used exclusively by Navbar) ---
 const menuItems = {
   Company: {
     tagline: "The JAYSHREE Story.",
@@ -99,13 +99,16 @@ const menuItems = {
 // Helper function to flatten the nested links structure for mobile display
 const flattenLinks = (links) => links.flat();
 
-export default function App() {
+// --- Header (Navbar) Component ---
+/**
+ * Renders the fixed navigation bar and handles all menu logic.
+ */
+export default function Header() {
   const [hovered, setHovered] = useState(null); // Used for desktop hover OR mobile active sub-menu
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   // Close all menus when hovering stops (Desktop only)
   const handleMouseLeave = () => {
-    // Only clear on mouse leave if the mobile menu is not open
     if (!isMobileMenuOpen) {
       setHovered(null);
     }
@@ -125,16 +128,7 @@ export default function App() {
   return (
     <nav className="fixed top-0 left-0 w-full z-50 font-sans text-white">
       {/* Top Bar (Header) */}
-      <motion.div
-        className="flex items-center justify-between px-4 sm:px-8 lg:px-10 py-4 backdrop-blur-sm shadow-xl transition-all duration-300"
-        animate={{
-          backgroundColor:
-            hovered || isMobileMenuOpen
-              ? "rgba(15, 26, 43, 0.95)"
-              : "rgba(15, 26, 43, 0.7)",
-        }}
-        transition={{ duration: 0.3 }}
-      >
+      <motion.div className="flex items-center justify-between px-4 sm:px-8 lg:px-10 py-4 backdrop-blur-sm shadow-xl bg-[#0f1a2b]/95">
         {/* Logo */}
         <motion.div
           className="text-lg sm:text-xl md:text-2xl font-extrabold cursor-pointer"
@@ -188,9 +182,7 @@ export default function App() {
         </button>
       </motion.div>
 
-      {/* ---------------------------------------------------------------------- */}
-      {/* DESKTOP MEGA DROPDOWN (Hidden on mobile) */}
-      {/* ---------------------------------------------------------------------- */}
+      {/* DESKTOP MEGA DROPDOWN */}
       <AnimatePresence>
         {hovered && !isMobileMenuOpen && (
           <motion.div
@@ -277,9 +269,7 @@ export default function App() {
         )}
       </AnimatePresence>
 
-      {/* ---------------------------------------------------------------------- */}
-      {/* MOBILE FULL-SCREEN MENU (Visible on mobile) */}
-      {/* ---------------------------------------------------------------------- */}
+      {/* MOBILE FULL-SCREEN MENU */}
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div
@@ -296,7 +286,7 @@ export default function App() {
                   key={label}
                   className="border-b border-gray-700/50 last:border-b-0"
                 >
-                  {/* Mobile Button: Clicks to toggle sub-menu (sets/clears 'hovered') */}
+                  {/* Mobile Button: Clicks to toggle sub-menu */}
                   <motion.button
                     className="w-full flex items-center justify-between py-3 px-3 text-lg font-bold transition-colors"
                     onClick={() => handleMobileMenuClick(label)}
@@ -352,33 +342,6 @@ export default function App() {
           </motion.div>
         )}
       </AnimatePresence>
-
-      {/* Demo Content Below (To show the fixed header working) */}
-      <div className="min-h-screen bg-gradient-to-br from-blue-900 via-slate-800 to-blue-950 pt-32 flex items-center justify-center">
-        <motion.div
-          className="text-center px-4"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-        >
-          <motion.h1
-            className="text-4xl sm:text-5xl lg:text-6xl font-extrabold mb-4"
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.6 }}
-          >
-            JAYSHREE INFRASTRUCTURES
-          </motion.h1>
-          <motion.p
-            className="text-base sm:text-xl text-gray-300 max-w-2xl mx-auto"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-          >
-            From Concept to Creation! Build Your Dream With Us.
-          </motion.p>
-        </motion.div>
-      </div>
     </nav>
   );
 }
