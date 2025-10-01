@@ -20,8 +20,11 @@ import {
   Briefcase,
   Newspaper,
   Megaphone,
+  Menu, // Added for mobile toggle
+  X, // Added for mobile close
 } from "lucide-react";
 
+// The menu data structure remains the same
 const menuItems = {
   Company: {
     tagline: "The JAYSHREE Story.",
@@ -93,42 +96,66 @@ const menuItems = {
   },
 };
 
-export default function Navbar() {
-  const [hovered, setHovered] = useState(null);
+// Helper function to flatten the nested links structure for mobile display
+const flattenLinks = (links) => links.flat();
+
+export default function App() {
+  const [hovered, setHovered] = useState(null); // Used for desktop hover OR mobile active sub-menu
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  // Close all menus when hovering stops (Desktop only)
+  const handleMouseLeave = () => {
+    // Only clear on mouse leave if the mobile menu is not open
+    if (!isMobileMenuOpen) {
+      setHovered(null);
+    }
+  };
+
+  // Toggle sub-menu on mobile click
+  const handleMobileMenuClick = (label) => {
+    setHovered(hovered === label ? null : label);
+  };
+
+  // Function to close mobile menu after link click
+  const closeMobileMenu = () => {
+    setIsMobileMenuOpen(false);
+    setHovered(null);
+  };
 
   return (
-    <nav className="fixed top-0 left-0 w-full z-50 text-white">
-      {/* Top Bar */}
+    <nav className="fixed top-0 left-0 w-full z-50 font-sans text-white">
+      {/* Top Bar (Header) */}
       <motion.div
-        className="flex items-center justify-between px-10 py-4 backdrop-blur-sm"
+        className="flex items-center justify-between px-4 sm:px-8 lg:px-10 py-4 backdrop-blur-sm shadow-xl transition-all duration-300"
         animate={{
-          backgroundColor: hovered
-            ? "rgba(15, 26, 43, 0.95)"
-            : "rgba(15, 26, 43, 0.7)",
+          backgroundColor:
+            hovered || isMobileMenuOpen
+              ? "rgba(15, 26, 43, 0.95)"
+              : "rgba(15, 26, 43, 0.7)",
         }}
         transition={{ duration: 0.3 }}
       >
         {/* Logo */}
         <motion.div
-          className="text-2xl font-bold cursor-pointer"
-          whileHover={{ scale: 1.05 }}
+          className="text-lg sm:text-xl md:text-2xl font-extrabold cursor-pointer"
+          whileHover={{ scale: 1.02 }}
           transition={{ type: "spring", stiffness: 400, damping: 10 }}
         >
           JAYSHREE INFRASTRUCTURES
         </motion.div>
 
-        {/* Menu Items */}
-        <ul className="flex gap-8">
+        {/* Desktop Menu Items (Hidden on MD and below) */}
+        <ul className="hidden md:flex gap-6 lg:gap-8">
           {Object.keys(menuItems).map((label) => (
             <li
               key={label}
               className="relative"
               onMouseEnter={() => setHovered(label)}
-              onMouseLeave={() => setHovered(null)}
+              onMouseLeave={handleMouseLeave}
             >
               {/* Button */}
               <motion.button
-                className="flex items-center gap-1 font-semibold"
+                className="flex items-center gap-1 font-semibold text-sm lg:text-base"
                 animate={{
                   color: hovered === label ? "#facc15" : "#ffffff",
                 }}
@@ -146,19 +173,34 @@ export default function Navbar() {
             </li>
           ))}
         </ul>
+
+        {/* Mobile Toggle Button (Visible on MD and below) */}
+        <button
+          className="md:hidden p-2 rounded-lg hover:bg-yellow-400/20 transition-colors"
+          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
+        >
+          {isMobileMenuOpen ? (
+            <X size={24} className="text-yellow-400" />
+          ) : (
+            <Menu size={24} />
+          )}
+        </button>
       </motion.div>
 
-      {/* Dropdown Panel - Full Width */}
+      {/* ---------------------------------------------------------------------- */}
+      {/* DESKTOP MEGA DROPDOWN (Hidden on mobile) */}
+      {/* ---------------------------------------------------------------------- */}
       <AnimatePresence>
-        {hovered && (
+        {hovered && !isMobileMenuOpen && (
           <motion.div
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.3, ease: "easeInOut" }}
-            className="absolute left-0 w-full bg-[#0f1a2b]/95 backdrop-blur-lg shadow-2xl overflow-hidden"
+            className="hidden md:block absolute left-0 w-full bg-[#0f1a2b]/95 backdrop-blur-lg shadow-2xl overflow-hidden border-t border-yellow-400/30"
             onMouseEnter={() => setHovered(hovered)}
-            onMouseLeave={() => setHovered(null)}
+            onMouseLeave={handleMouseLeave}
           >
             <motion.div
               initial={{ y: -20, opacity: 0 }}
@@ -174,7 +216,7 @@ export default function Navbar() {
                 transition={{ duration: 0.4, delay: 0.15 }}
               >
                 <motion.h2
-                  className="text-yellow-400 text-sm uppercase mb-2 tracking-wide font-semibold"
+                  className="text-yellow-400 text-sm uppercase mb-2 tracking-widest font-semibold"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ delay: 0.2 }}
@@ -182,7 +224,7 @@ export default function Navbar() {
                   {hovered}
                 </motion.h2>
                 <motion.h1
-                  className="text-3xl font-bold leading-snug"
+                  className="text-3xl font-extrabold leading-snug"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ delay: 0.25 }}
@@ -205,26 +247,23 @@ export default function Navbar() {
                           delay: 0.1 + (colIdx * 3 + linkIdx) * 0.05,
                         }}
                         whileHover={{ x: 8 }}
-                        className="flex justify-between items-center border-b border-gray-700/50 pb-3 cursor-pointer group"
+                        className="flex justify-between items-center border-b border-gray-700/50 pb-3 cursor-pointer group transition-transform"
                       >
                         <span className="flex items-center gap-3 group-hover:text-yellow-400 transition-colors">
                           <motion.span
                             whileHover={{ rotate: 360 }}
                             transition={{ duration: 0.6, ease: "easeInOut" }}
-                            className="text-yellow-400"
+                            className="text-yellow-400 flex-shrink-0"
                           >
-                            <Icon size={16} />
+                            <Icon size={18} />
                           </motion.span>
-                          <span className="text-sm">{linkLabel}</span>
+                          <span className="text-base font-medium">
+                            {linkLabel}
+                          </span>
                         </span>
                         <motion.span
-                          className="text-yellow-400 text-lg"
-                          animate={{ x: [0, 5, 0] }}
-                          transition={{
-                            duration: 1.5,
-                            repeat: Infinity,
-                            ease: "easeInOut",
-                          }}
+                          className="text-yellow-400 text-xl font-bold opacity-0 group-hover:opacity-100 transition-opacity"
+                          transition={{ duration: 0.3 }}
                         >
                           →
                         </motion.span>
@@ -238,8 +277,84 @@ export default function Navbar() {
         )}
       </AnimatePresence>
 
-      {/* Demo Content Below */}
-      <div className="min-h-screen bg-gradient-to-br from-blue-900 via-slate-800 to-blue-950 pt-20 flex items-center justify-center">
+      {/* ---------------------------------------------------------------------- */}
+      {/* MOBILE FULL-SCREEN MENU (Visible on mobile) */}
+      {/* ---------------------------------------------------------------------- */}
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: "-100%" }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: "-100%" }}
+            transition={{ duration: 0.4, ease: "easeOut" }}
+            className="md:hidden fixed inset-0 top-[68px] bg-[#0f1a2b] overflow-y-auto pt-2 pb-10"
+            style={{ top: "68px" }} // Fixed offset for the header
+          >
+            <div className="flex flex-col space-y-1 px-4 sm:px-6">
+              {Object.keys(menuItems).map((label) => (
+                <div
+                  key={label}
+                  className="border-b border-gray-700/50 last:border-b-0"
+                >
+                  {/* Mobile Button: Clicks to toggle sub-menu (sets/clears 'hovered') */}
+                  <motion.button
+                    className="w-full flex items-center justify-between py-3 px-3 text-lg font-bold transition-colors"
+                    onClick={() => handleMobileMenuClick(label)}
+                    whileTap={{ scale: 0.98 }}
+                  >
+                    {label}
+                    <motion.div
+                      animate={{ rotate: hovered === label ? 180 : 0 }}
+                    >
+                      <ChevronDown size={20} className="text-yellow-400" />
+                    </motion.div>
+                  </motion.button>
+
+                  {/* Mobile Sub-menu content */}
+                  <AnimatePresence>
+                    {hovered === label && (
+                      <motion.div
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: "auto" }}
+                        exit={{ opacity: 0, height: 0 }}
+                        transition={{ duration: 0.3, ease: "easeInOut" }}
+                        className="py-2 pl-4 bg-[#142236] overflow-hidden rounded-b-lg"
+                      >
+                        <h3 className="text-yellow-400 text-xs uppercase pt-2 pb-2 tracking-widest font-medium pl-3">
+                          {menuItems[label].tagline}
+                        </h3>
+                        <div className="space-y-1 pb-2">
+                          {/* Flatten and display links vertically */}
+                          {flattenLinks(menuItems[label].links).map(
+                            ({ label: linkLabel, icon: Icon }, linkIdx) => (
+                              <div
+                                key={linkIdx}
+                                className="flex items-center gap-3 py-2 px-3 ml-2 rounded-lg hover:bg-[#1a2b45] cursor-pointer transition-colors"
+                                onClick={closeMobileMenu} // Close the menu on link click
+                              >
+                                <Icon
+                                  size={16}
+                                  className="text-yellow-400 flex-shrink-0"
+                                />
+                                <span className="text-sm font-medium">
+                                  {linkLabel}
+                                </span>
+                              </div>
+                            )
+                          )}
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+              ))}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Demo Content Below (To show the fixed header working) */}
+      <div className="min-h-screen bg-gradient-to-br from-blue-900 via-slate-800 to-blue-950 pt-32 flex items-center justify-center">
         <motion.div
           className="text-center px-4"
           initial={{ opacity: 0, y: 20 }}
@@ -247,7 +362,7 @@ export default function Navbar() {
           transition={{ duration: 0.8, delay: 0.2 }}
         >
           <motion.h1
-            className="text-5xl font-bold mb-4"
+            className="text-4xl sm:text-5xl lg:text-6xl font-extrabold mb-4"
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.6 }}
@@ -255,7 +370,7 @@ export default function Navbar() {
             JAYSHREE INFRASTRUCTURES
           </motion.h1>
           <motion.p
-            className="text-xl text-gray-300"
+            className="text-base sm:text-xl text-gray-300 max-w-2xl mx-auto"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.6, delay: 0.3 }}
