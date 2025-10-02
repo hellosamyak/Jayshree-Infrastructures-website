@@ -24,7 +24,7 @@ import {
   X,
 } from "lucide-react";
 
-// --- Data Structure (Used exclusively by Navbar) ---
+// --- Data Structure (Updated to remove Investors, People, and Pressroom) ---
 const menuItems = {
   Company: {
     tagline: "The JAYSHREE Story.",
@@ -65,36 +65,8 @@ const menuItems = {
       ],
     ],
   },
-  Investors: {
-    tagline: "The Returns on Infrastructure.",
-    links: [
-      [
-        { label: "Reports", icon: FileText },
-        { label: "Disclosures", icon: ShieldCheck },
-      ],
-      [{ label: "Financials", icon: BarChart }],
-    ],
-  },
-  People: {
-    tagline: "Building Teams. Building Trust.",
-    links: [
-      [
-        { label: "Our Team", icon: Users2 },
-        { label: "Culture", icon: Briefcase },
-      ],
-    ],
-  },
-  Pressroom: {
-    tagline: "In the Media.",
-    links: [
-      [
-        { label: "News", icon: Newspaper },
-        { label: "Media", icon: Megaphone },
-        { label: "Announcements", icon: FileText },
-      ],
-    ],
-  },
 };
+// Removed: Investors, People, Pressroom
 
 // Helper function to flatten the nested links structure for mobile display
 const flattenLinks = (links) => links.flat();
@@ -131,7 +103,7 @@ export default function Header() {
       <motion.div className="flex items-center justify-between px-4 sm:px-8 lg:px-10 py-4 backdrop-blur-sm shadow-xl bg-[#0f1a2b]/95">
         {/* Logo */}
         <motion.div
-          className="text-lg sm:text-xl md:text-2xl font-extrabold cursor-pointer"
+          className="text-lg sm:text-xl md:text-2xl font-extrabold cursor-pointer flex-shrink-0"
           whileHover={{ scale: 1.02 }}
           transition={{ type: "spring", stiffness: 400, damping: 10 }}
         >
@@ -139,7 +111,8 @@ export default function Header() {
         </motion.div>
 
         {/* Desktop Menu Items (Hidden on MD and below) */}
-        <ul className="hidden md:flex gap-6 lg:gap-8">
+        {/* Reduced gap slightly for better centering with fewer items */}
+        <ul className="hidden md:flex gap-8 lg:gap-12 ml-auto">
           {Object.keys(menuItems).map((label) => (
             <li
               key={label}
@@ -170,7 +143,7 @@ export default function Header() {
 
         {/* Mobile Toggle Button (Visible on MD and below) */}
         <button
-          className="md:hidden p-2 rounded-lg hover:bg-yellow-400/20 transition-colors"
+          className="md:hidden p-2 rounded-lg hover:bg-yellow-400/20 transition-colors flex-shrink-0"
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
         >
