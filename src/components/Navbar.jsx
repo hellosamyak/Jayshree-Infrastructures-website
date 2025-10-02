@@ -1,81 +1,12 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import {
-  ChevronDown,
-  Building2,
-  Users2,
-  Award,
-  Route,
-  Phone,
-  ShieldCheck,
-  Lightbulb,
-  Hammer,
-  Leaf,
-  Package,
-  Handshake,
-  TrendingUp,
-  Wrench,
-  FileText,
-  BarChart,
-  Briefcase,
-  Newspaper,
-  Megaphone,
-  Menu,
-  X,
-} from "lucide-react";
+import { Link, NavLink } from "react-router-dom";
+import { ChevronDown, Menu, X } from "lucide-react";
 
-// --- Data Structure (Updated to remove Investors, People, and Pressroom) ---
-const menuItems = {
-  Company: {
-    tagline: "The JAYSHREE Story.",
-    links: [
-      [
-        { label: "Corporate Social Responsibility", icon: Handshake },
-        { label: "Leadership", icon: Users2 },
-        { label: "Awards & Recognitions", icon: Award },
-      ],
-      [
-        { label: "DBL Journey", icon: Route },
-        { label: "Contact", icon: Phone },
-        { label: "ISO 27001", icon: ShieldCheck },
-      ],
-    ],
-  },
-  Strengths: {
-    tagline: "Engineered for Resilience.",
-    links: [
-      [
-        { label: "Innovation", icon: Lightbulb },
-        { label: "Execution", icon: Hammer },
-        { label: "Environment, Health & Safety", icon: Leaf },
-      ],
-      [
-        { label: "Backward Integration", icon: Package },
-        { label: "Partners", icon: Handshake },
-        { label: "Sustainability", icon: TrendingUp },
-      ],
-    ],
-  },
-  Projects: {
-    tagline: "Portfolio of Progress.",
-    links: [
-      [
-        { label: "Ongoing Projects", icon: Wrench },
-        { label: "Completed Projects", icon: Building2 },
-      ],
-    ],
-  },
-};
-// Removed: Investors, People, Pressroom
+// Import data and utility functions from the centralized data file
+import { menuItems, slugify } from "../utils/data";
 
-// Helper function to flatten the nested links structure for mobile display
-const flattenLinks = (links) => links.flat();
-
-// --- Header (Navbar) Component ---
-/**
- * Renders the fixed navigation bar and handles all menu logic.
- */
-export default function Header() {
+export default function Navbar() {
   const [hovered, setHovered] = useState(null); // Used for desktop hover OR mobile active sub-menu
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -88,30 +19,36 @@ export default function Header() {
 
   // Toggle sub-menu on mobile click
   const handleMobileMenuClick = (label) => {
+    // If the same menu is clicked, close it; otherwise, open the new one
     setHovered(hovered === label ? null : label);
   };
 
   // Function to close mobile menu after link click
-  const closeMobileMenu = () => {
+  const closeMobileMenu = useCallback(() => {
     setIsMobileMenuOpen(false);
     setHovered(null);
-  };
+  }, []);
 
   return (
     <nav className="fixed top-0 left-0 w-full z-50 font-sans text-white">
       {/* Top Bar (Header) */}
       <motion.div className="flex items-center justify-between px-4 sm:px-8 lg:px-10 py-4 backdrop-blur-sm shadow-xl bg-[#0f1a2b]/95">
-        {/* Logo */}
-        <motion.div
-          className="text-lg sm:text-xl md:text-2xl font-extrabold cursor-pointer flex-shrink-0"
-          whileHover={{ scale: 1.02 }}
-          transition={{ type: "spring", stiffness: 400, damping: 10 }}
+        {/* Logo (Link to home) */}
+        <Link
+          to="/"
+          className="flex-shrink-0"
+          onClick={closeMobileMenu} // Ensure menu closes if logo clicked on mobile
         >
-          JAYSHREE INFRASTRUCTURES
-        </motion.div>
+          <motion.div
+            className="text-lg sm:text-xl md:text-2xl font-extrabold cursor-pointer"
+            whileHover={{ scale: 1.02 }}
+            transition={{ type: "spring", stiffness: 400, damping: 10 }}
+          >
+            JAYSHREE INFRASTRUCTURES
+          </motion.div>
+        </Link>
 
         {/* Desktop Menu Items (Hidden on MD and below) */}
-        {/* Reduced gap slightly for better centering with fewer items */}
         <ul className="hidden md:flex gap-8 lg:gap-12 ml-auto">
           {Object.keys(menuItems).map((label) => (
             <li
@@ -120,23 +57,32 @@ export default function Header() {
               onMouseEnter={() => setHovered(label)}
               onMouseLeave={handleMouseLeave}
             >
-              {/* Button */}
-              <motion.button
-                className="flex items-center gap-1 font-semibold text-sm lg:text-base"
-                animate={{
-                  color: hovered === label ? "#facc15" : "#ffffff",
-                }}
-                whileHover={{ color: "#facc15" }}
-                transition={{ duration: 0.2 }}
-              >
-                {label}
+              <div className="flex items-center gap-1">
+                <NavLink
+                  to={`/${label.toLowerCase()}`}
+                  onClick={() => setHovered(null)} // Ensure dropdown closes if link is clicked
+                  className={({ isActive }) =>
+                    `flex items-center gap-1 font-semibold text-sm lg:text-base transition-colors duration-200 
+                    ${
+                      isActive || hovered === label
+                        ? "text-yellow-400"
+                        : "text-white hover:text-yellow-300"
+                    }`
+                  }
+                >
+                  {label}
+                </NavLink>
+
+                {/* Dropdown Chevron (Visual cue, controlled by hover) */}
                 <motion.div
                   animate={{ rotate: hovered === label ? 180 : 0 }}
                   transition={{ duration: 0.3, ease: "easeInOut" }}
+                  className="cursor-pointer"
+                  onClick={() => setHovered(label)} // Allows click-to-open as a fallback on desktop
                 >
                   <ChevronDown size={16} />
                 </motion.div>
-              </motion.button>
+              </div>
             </li>
           ))}
         </ul>
@@ -203,36 +149,45 @@ export default function Header() {
                 {menuItems[hovered].links.map((col, colIdx) => (
                   <div key={colIdx} className="space-y-3">
                     {col.map(({ label: linkLabel, icon: Icon }, linkIdx) => (
-                      <motion.div
+                      // DESKTOP LINK: Use Link component for nested route
+                      <Link
                         key={linkIdx}
-                        initial={{ x: 20, opacity: 0 }}
-                        animate={{ x: 0, opacity: 1 }}
-                        transition={{
-                          duration: 0.3,
-                          delay: 0.1 + (colIdx * 3 + linkIdx) * 0.05,
-                        }}
-                        whileHover={{ x: 8 }}
-                        className="flex justify-between items-center border-b border-gray-700/50 pb-3 cursor-pointer group transition-transform"
+                        to={`/${hovered.toLowerCase()}/${slugify(linkLabel)}`}
+                        onClick={() => setHovered(null)} // Close dropdown on link click
+                        // Apply group and hover classes to the Link itself
+                        className="block group transition-transform"
                       >
-                        <span className="flex items-center gap-3 group-hover:text-yellow-400 transition-colors">
-                          <motion.span
-                            whileHover={{ rotate: 360 }}
-                            transition={{ duration: 0.6, ease: "easeInOut" }}
-                            className="text-yellow-400 flex-shrink-0"
-                          >
-                            <Icon size={18} />
-                          </motion.span>
-                          <span className="text-base font-medium">
-                            {linkLabel}
-                          </span>
-                        </span>
-                        <motion.span
-                          className="text-yellow-400 text-xl font-bold opacity-0 group-hover:opacity-100 transition-opacity"
-                          transition={{ duration: 0.3 }}
+                        <motion.div
+                          initial={{ x: 20, opacity: 0 }}
+                          animate={{ x: 0, opacity: 1 }}
+                          transition={{
+                            duration: 0.3,
+                            delay: 0.1 + (colIdx * 3 + linkIdx) * 0.05,
+                          }}
+                          whileHover={{ x: 8 }} // Framer motion transform on hover
+                          className="flex justify-between items-center border-b border-gray-700/50 pb-3"
                         >
-                          →
-                        </motion.span>
-                      </motion.div>
+                          <span className="flex items-center gap-3 group-hover:text-yellow-400 transition-colors">
+                            <motion.span
+                              whileHover={{ rotate: 360 }}
+                              transition={{ duration: 0.6, ease: "easeInOut" }}
+                              className="text-yellow-400 flex-shrink-0"
+                            >
+                              {/* Icon must be rendered here */}
+                              <Icon size={18} />
+                            </motion.span>
+                            <span className="text-base font-medium">
+                              {linkLabel}
+                            </span>
+                          </span>
+                          <motion.span
+                            className="text-yellow-400 text-xl font-bold opacity-0 group-hover:opacity-100 transition-opacity"
+                            transition={{ duration: 0.3 }}
+                          >
+                            →
+                          </motion.span>
+                        </motion.div>
+                      </Link>
                     ))}
                   </div>
                 ))}
@@ -259,19 +214,36 @@ export default function Header() {
                   key={label}
                   className="border-b border-gray-700/50 last:border-b-0"
                 >
-                  {/* Mobile Button: Clicks to toggle sub-menu */}
-                  <motion.button
-                    className="w-full flex items-center justify-between py-3 px-3 text-lg font-bold transition-colors"
-                    onClick={() => handleMobileMenuClick(label)}
-                    whileTap={{ scale: 0.98 }}
-                  >
-                    {label}
-                    <motion.div
-                      animate={{ rotate: hovered === label ? 180 : 0 }}
+                  <div className="w-full flex items-center justify-between py-3 px-3">
+                    {/* Mobile Top-Level Link: NavLink for navigation */}
+                    <NavLink
+                      to={`/${label.toLowerCase()}`}
+                      onClick={closeMobileMenu}
+                      className={({ isActive }) =>
+                        `text-lg font-bold transition-colors ${
+                          isActive
+                            ? "text-yellow-400"
+                            : "text-white hover:text-yellow-300"
+                        }`
+                      }
                     >
-                      <ChevronDown size={20} className="text-yellow-400" />
-                    </motion.div>
-                  </motion.button>
+                      {label}
+                    </NavLink>
+
+                    {/* Mobile Button: Clicks to toggle sub-menu */}
+                    <motion.button
+                      className="p-1"
+                      onClick={() => handleMobileMenuClick(label)}
+                      whileTap={{ scale: 0.98 }}
+                      aria-expanded={hovered === label}
+                    >
+                      <motion.div
+                        animate={{ rotate: hovered === label ? 180 : 0 }}
+                      >
+                        <ChevronDown size={20} className="text-yellow-400" />
+                      </motion.div>
+                    </motion.button>
+                  </div>
 
                   {/* Mobile Sub-menu content */}
                   <AnimatePresence>
@@ -287,24 +259,30 @@ export default function Header() {
                           {menuItems[label].tagline}
                         </h3>
                         <div className="space-y-1 pb-2">
-                          {/* Flatten and display links vertically */}
-                          {flattenLinks(menuItems[label].links).map(
-                            ({ label: linkLabel, icon: Icon }, linkIdx) => (
-                              <div
-                                key={linkIdx}
-                                className="flex items-center gap-3 py-2 px-3 ml-2 rounded-lg hover:bg-[#1a2b45] cursor-pointer transition-colors"
-                                onClick={closeMobileMenu} // Close the menu on link click
-                              >
-                                <Icon
-                                  size={16}
-                                  className="text-yellow-400 flex-shrink-0"
-                                />
-                                <span className="text-sm font-medium">
-                                  {linkLabel}
-                                </span>
-                              </div>
-                            )
-                          )}
+                          {/* Use .flat() directly for flattening */}
+                          {menuItems[label].links
+                            .flat()
+                            .map(
+                              ({ label: linkLabel, icon: Icon }, linkIdx) => (
+                                // MOBILE LINK: Use Link component for nested route
+                                <Link
+                                  key={linkIdx}
+                                  to={`/${label.toLowerCase()}/${slugify(
+                                    linkLabel
+                                  )}`}
+                                  className="flex items-center gap-3 py-2 px-3 ml-2 rounded-lg hover:bg-[#1a2b45] cursor-pointer transition-colors"
+                                  onClick={closeMobileMenu} // Close the menu on link click
+                                >
+                                  <Icon
+                                    size={16}
+                                    className="text-yellow-400 flex-shrink-0"
+                                  />
+                                  <span className="text-sm font-medium">
+                                    {linkLabel}
+                                  </span>
+                                </Link>
+                              )
+                            )}
                         </div>
                       </motion.div>
                     )}
