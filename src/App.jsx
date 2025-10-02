@@ -1,13 +1,24 @@
 import React from "react";
 import Navbar from "./components/Navbar";
-import HeroSection from "./components/Hero";
+import { Route, Routes } from "react-router";
+import Home from "./pages/Home";
+import Company from "./pages/Company";
+import Projects from "./pages/Projects";
+import Strengths from "./pages/Strengths";
 
 function App() {
   return (
-    <div className="bg-blue-950 min-h-screen">
-      <Navbar />
-      <HeroSection />
-    </div>
+    <>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/company" element={<Company />} />
+        <Route path="/projects" element={<Projects />} />
+        <Route path="/strengths" element={<Strengths />} />
+      </Routes>
+      <div>
+        <Navbar />
+      </div>
+    </>
   );
 }
 
