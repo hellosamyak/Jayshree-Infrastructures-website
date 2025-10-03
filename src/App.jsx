@@ -4,6 +4,7 @@ import { Routes, Route, useParams } from "react-router-dom";
 import CategoryPage from "./pages/CategoryPage";
 import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
+import Footer from "./components/Footer";
 
 // Component to determine which category to render based on URL
 const CategoryPageWrapper = () => {
@@ -38,6 +39,8 @@ export default function App() {
         {/* The /* wildcard ensures sub-paths (slugs) are also matched */}
         <Route path="/:categoryName/*" element={<CategoryPageWrapper />} />
       </Routes>
+
+      <Footer />
     </>
   );
 }
