@@ -823,7 +823,7 @@ function Home() {
               {
                 icon: MapPin,
                 title: "Visit Us",
-                info: "Ujjain, Madhya Pradesh",
+                info: "Jabalpur, Madhya Pradesh",
                 subinfo: "India",
               },
             ].map((contact, idx) => (
