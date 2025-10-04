@@ -109,7 +109,7 @@ export default function Navbar() {
         animate={{ y: 0 }}
         transition={{ duration: 0.5, ease: "easeOut" }}
         className={`
-          relative flex items-center justify-between px-4 sm:px-6 lg:px-10 xl:px-12 py-3 sm:py-4
+          relative flex items-center justify-between px-3 sm:px-6 lg:px-10 xl:px-12 py-2 sm:py-4
           bg-gradient-to-br from-gray-950 via-gray-900 to-gray-950 text-white
           backdrop-blur-lg shadow-2xl transition-all duration-300 border-b
           ${
@@ -125,7 +125,7 @@ export default function Navbar() {
         {/* Logo - Matched styling with Footer */}
         <Link to="/" className="flex-shrink-0 group" onClick={closeMobileMenu}>
           <motion.div
-            className="flex items-center gap-3"
+            className="flex items-center gap-2 sm:gap-3"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.98 }}
             transition={{ type: "spring", stiffness: 400, damping: 15 }}
@@ -137,10 +137,10 @@ export default function Navbar() {
               <img
                 src="/logo.jpg"
                 alt="Logo"
-                className="w-15 h-15 rounded-full object-cover border-2 border-yellow-400 drop-shadow-lg"
+                className="w-10 h-10 sm:w-12 sm:h-12 rounded-full object-cover border-2 border-yellow-400 drop-shadow-lg flex-shrink-0"
               />
             </motion.div>
-            <span className="text-2xl sm:text-2xl font-extrabold bg-gradient-to-r from-yellow-400 via-white to-yellow-400 bg-clip-text text-transparent drop-shadow-lg">
+            <span className="text-sm sm:text-lg md:text-2xl font-extrabold bg-gradient-to-r from-yellow-400 via-white to-yellow-400 bg-clip-text text-transparent drop-shadow-lg whitespace-nowrap">
               JAYSHREE INFRASTRUCTURES
             </span>
           </motion.div>
@@ -198,7 +198,7 @@ export default function Navbar() {
         </ul>
 
         {/* Mobile Toggle Button */}
-        <div className="flex items-center md:hidden ml-4">
+        <div className="flex items-center md:hidden ml-auto">
           <motion.button
             whileTap={{ scale: 0.9 }}
             className="p-2 rounded-xl hover:bg-yellow-400/20 active:bg-yellow-400/30 transition-all flex-shrink-0 relative overflow-hidden group"
