@@ -5,6 +5,7 @@ import CategoryPage from "./pages/CategoryPage";
 import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
 import Footer from "./components/Footer";
+import ProjectInquiryForm from "./components/ProjectInquiryForm";
 
 // Component to determine which category to render based on URL
 const CategoryPageWrapper = () => {
@@ -29,6 +30,7 @@ export default function App() {
       <Routes>
         {/* 1. Base Home Page */}
         <Route path="/" element={<Home />} />
+        <Route path="/inquiryform" element={<ProjectInquiryForm />} />
 
         {/* 2. Dynamic Route Handler for all Category Pages (Company, Strengths, Projects) */}
 

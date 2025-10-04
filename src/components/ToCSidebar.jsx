@@ -96,7 +96,7 @@ const ToCSidebar = ({ activeSlug, links, category, onLinkClick }) => {
 
       {/* Navigation Links */}
       <nav className="space-y-1.5 sm:space-y-2">
-        <AnimatePresence mode="wait">
+        <AnimatePresence mode="sync">
           {links.map((link, index) => {
             const fullPath = `${basePath}/${link.slug}`;
             const isActive = link.slug === activeSlug;

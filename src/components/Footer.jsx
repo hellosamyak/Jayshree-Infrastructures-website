@@ -2,22 +2,14 @@ import React from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import {
-  Phone,
-  Mail,
   Info,
-  Newspaper,
   Briefcase,
   Users,
-  Leaf,
-  Building2,
-  Train,
-  Plane,
-  Mountain,
-  Droplets,
   Route,
-  Sparkles,
+  Waypoints,
+  Building,
+  Wallpaper,
 } from "lucide-react";
-import FaxIcon from "@mui/icons-material/Fax";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import XIcon from "@mui/icons-material/X";
 import InstagramIcon from "@mui/icons-material/Instagram";
@@ -29,68 +21,40 @@ const containerVariants = {
   animate: {
     opacity: 1,
     y: 0,
-    transition: {
-      duration: 0.6,
-      staggerChildren: 0.1,
-    },
+    transition: { duration: 0.6, staggerChildren: 0.1 },
   },
 };
 
 const itemVariants = {
   initial: { opacity: 0, y: 20 },
-  animate: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.4 },
-  },
+  animate: { opacity: 1, y: 0, transition: { duration: 0.4 } },
 };
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
 
-  // Contact Information
-  const contactInfo = [
-    {
-      icon: Phone,
-      label: "PHONE",
-      value: "+91-755-402-9999",
-      href: "tel:+917554029999",
-    },
-    {
-      icon: FaxIcon,
-      label: "FAX",
-      value: "+91-755-402-9998",
-      href: "tel:+917554029998",
-    },
-    {
-      icon: Mail,
-      label: "EMAIL",
-      value: "contactus@jayshree.co.in",
-      href: "mailto:contactus@jayshree.co.in",
-    },
-  ];
-
-  // Quick Links
   const quickLinks = [
-    { icon: Info, label: "About Us", path: "/company/about" },
-    { icon: Newspaper, label: "Latest News", path: "/company/news" },
+    { icon: Info, label: "About Us", path: "/company" },
     { icon: Briefcase, label: "Our Projects", path: "/projects" },
-    { icon: Users, label: "Careers", path: "/company/careers" },
-    { icon: Leaf, label: "ESG", path: "/company/esg" },
+    { icon: Users, label: "Our Strengths", path: "/strengths" },
+    { icon: Route, label: "Our Journey", path: "/company/jayshree-journey" },
   ];
 
-  // Our Projects
   const projectLinks = [
-    { icon: Building2, label: "Roads And Highways", path: "/projects/roads" },
-    { icon: Train, label: "Rails & Metro", path: "/projects/rails" },
-    { icon: Plane, label: "Airport", path: "/projects/airport" },
-    { icon: Mountain, label: "Mining", path: "/projects/mining" },
-    { icon: Droplets, label: "Irrigation", path: "/projects/irrigation" },
-    { icon: Route, label: "Special Bridges", path: "/projects/bridges" },
-    { icon: Building2, label: "Urban Development", path: "/projects/urban" },
+    {
+      icon: Waypoints,
+      label: "Roads & Highways",
+      path: "/projects/roads-highways",
+    },
+    {
+      icon: Route,
+      label: "Bridges & Tunnels",
+      path: "/projects/bridges-tunnels",
+    },
+    { icon: Building, label: "Urban Development", path: "/projects/urban" },
+    { icon: Wallpaper, label: "Interior Designs", path: "/projects/epc" },
   ];
 
-  // Social Media Links
   const socialLinks = [
     {
       icon: FacebookIcon,
@@ -100,7 +64,7 @@ const Footer = () => {
     },
     {
       icon: InstagramIcon,
-      href: "https://instagram.com",
+      href: "https://www.instagram.com/jayshree_infrastructure",
       label: "Instagram",
       color: "hover:bg-pink-600",
     },
@@ -119,52 +83,64 @@ const Footer = () => {
   ];
 
   return (
-    <footer className="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white font-sans">
-      {/* Main Footer Content */}
+    <footer className="bg-gradient-to-br from-gray-950 via-gray-900 to-gray-950 text-white font-sans relative overflow-hidden">
+      {/* Glow Accent */}
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(255,215,0,0.08),transparent)] pointer-events-none"></div>
+
       <motion.div
         variants={containerVariants}
         initial="initial"
         whileInView="animate"
         viewport={{ once: true }}
-        className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-20"
+        className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14 lg:py-24"
       >
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-10 lg:gap-14">
           {/* Company Info */}
-          <motion.div variants={itemVariants} className="lg:col-span-1">
-            <Link to="/" className="inline-block group mb-6">
+          <motion.div
+            variants={itemVariants}
+            className="sm:col-span-2 lg:col-span-1"
+          >
+            <Link to="/" className="inline-block group mb-6 sm:mb-8">
               <motion.div
-                whileHover={{ scale: 1.05 }}
+                whileHover={{ scale: 1.08 }}
                 transition={{ duration: 0.3 }}
-                className="flex items-center gap-3"
+                className="flex items-center gap-2 sm:gap-3"
               >
                 <motion.div
                   animate={{ rotate: [0, 360] }}
                   transition={{
-                    duration: 20,
+                    duration: 30,
                     repeat: Infinity,
                     ease: "linear",
                   }}
+                  className="relative"
                 >
-                  <Sparkles className="text-yellow-400" size={32} />
+                  <img
+                    src="/logo.jpg"
+                    alt="Logo"
+                    className="w-12 h-12 sm:w-16 sm:h-16 border-2 border-yellow-400 rounded-full object-cover drop-shadow-lg"
+                  />
                 </motion.div>
-                <span className="text-xl sm:text-2xl font-extrabold bg-gradient-to-r from-white via-yellow-100 to-white bg-clip-text text-transparent">
+                <span className="text-xl sm:text-2xl lg:text-3xl font-extrabold bg-gradient-to-r from-yellow-400 via-white to-yellow-400 bg-clip-text text-transparent drop-shadow-lg">
                   JAYSHREE
                 </span>
               </motion.div>
             </Link>
-            <p className="text-gray-400 leading-relaxed mb-6 text-sm sm:text-base">
+
+            <p className="text-gray-400 leading-relaxed mb-5 sm:mb-6 text-sm sm:text-base">
               The fastest growing Engineering, Procurement and Construction
-              (EPC) company in India, JAYSHREE INFRASTRUCTURES is aligning with
-              India's growth vision.
+              (EPC) company in Madhya Pradesh, JAYSHREE INFRASTRUCTURES is
+              aligning with India's growth vision.
             </p>
+
             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
               <Link
-                to="/company/about"
-                className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-yellow-500 to-yellow-600 text-white font-bold rounded-xl hover:from-yellow-600 hover:to-yellow-700 transition-all shadow-lg hover:shadow-xl"
+                to="/inquiryform"
+                className="inline-flex items-center justify-center gap-2 px-5 sm:px-6 py-2.5 sm:py-3 bg-gradient-to-r from-yellow-500 to-yellow-600 text-white text-sm sm:text-base font-bold rounded-xl hover:from-yellow-600 hover:to-yellow-700 transition-all shadow-lg hover:shadow-yellow-400/40 w-full sm:w-auto"
               >
-                View More
+                Submit Project Inquiry
                 <motion.span
-                  animate={{ x: [0, 5, 0] }}
+                  animate={{ x: [0, 6, 0] }}
                   transition={{ duration: 1.5, repeat: Infinity }}
                 >
                   →
@@ -175,61 +151,49 @@ const Footer = () => {
 
           {/* Quick Links */}
           <motion.div variants={itemVariants}>
-            <div className="flex items-center gap-2 mb-6">
-              <span className="w-1 h-6 bg-yellow-500 rounded-full"></span>
-              <h3 className="text-lg sm:text-xl font-extrabold uppercase tracking-wider">
-                Quick Links
-              </h3>
-            </div>
-            <nav className="space-y-3">
-              {quickLinks.map((link, index) => (
-                <motion.div
-                  key={index}
-                  whileHover={{ x: 5 }}
-                  transition={{ duration: 0.2 }}
-                >
+            <h3 className="text-base sm:text-lg lg:text-xl font-extrabold uppercase tracking-wider mb-4 sm:mb-6 flex items-center gap-2">
+              <span className="w-1 h-5 sm:h-6 bg-yellow-500 rounded-full"></span>
+              Quick Links
+            </h3>
+            <nav className="space-y-2.5 sm:space-y-3">
+              {quickLinks.map((link, i) => (
+                <motion.div key={i} whileHover={{ x: 6 }}>
                   <Link
                     to={link.path}
-                    className="flex items-center gap-3 text-gray-400 hover:text-yellow-400 transition-colors group text-sm sm:text-base"
+                    className="flex items-center gap-2.5 sm:gap-3 text-gray-400 hover:text-yellow-400 transition-colors group text-sm sm:text-base"
                   >
                     <link.icon
                       size={16}
-                      className="group-hover:rotate-12 transition-transform"
+                      className="sm:w-[18px] sm:h-[18px] group-hover:rotate-12 transition-transform flex-shrink-0"
                     />
-                    <span>{link.label}</span>
+                    <span className="group-hover:underline">{link.label}</span>
                   </Link>
                 </motion.div>
               ))}
             </nav>
           </motion.div>
 
-          {/* Our Projects - Split into 2 columns on mobile */}
+          {/* Our Projects */}
           <motion.div
             variants={itemVariants}
-            className="md:col-span-2 lg:col-span-2"
+            className="sm:col-span-2 lg:col-span-2"
           >
-            <div className="flex items-center gap-2 mb-6">
-              <span className="w-1 h-6 bg-yellow-500 rounded-full"></span>
-              <h3 className="text-lg sm:text-xl font-extrabold uppercase tracking-wider">
-                Our Projects
-              </h3>
-            </div>
-            <nav className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              {projectLinks.map((link, index) => (
-                <motion.div
-                  key={index}
-                  whileHover={{ x: 5 }}
-                  transition={{ duration: 0.2 }}
-                >
+            <h3 className="text-base sm:text-lg lg:text-xl font-extrabold uppercase tracking-wider mb-4 sm:mb-6 flex items-center gap-2">
+              <span className="w-1 h-5 sm:h-6 bg-yellow-500 rounded-full"></span>
+              Our Projects
+            </h3>
+            <nav className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3">
+              {projectLinks.map((link, i) => (
+                <motion.div key={i} whileHover={{ x: 6 }}>
                   <Link
                     to={link.path}
-                    className="flex items-center gap-3 text-gray-400 hover:text-yellow-400 transition-colors group text-sm sm:text-base"
+                    className="flex items-center gap-2.5 sm:gap-3 text-gray-400 hover:text-yellow-400 transition-colors group text-sm sm:text-base"
                   >
                     <link.icon
                       size={16}
-                      className="group-hover:rotate-12 transition-transform"
+                      className="sm:w-[18px] sm:h-[18px] group-hover:rotate-12 transition-transform flex-shrink-0"
                     />
-                    <span>{link.label}</span>
+                    <span className="group-hover:underline">{link.label}</span>
                   </Link>
                 </motion.div>
               ))}
@@ -240,106 +204,71 @@ const Footer = () => {
         {/* Social Media */}
         <motion.div
           variants={itemVariants}
-          className="mt-12 sm:mt-16 pt-8 sm:pt-12 border-t-2 border-gray-700"
+          className="mt-10 sm:mt-12 lg:mt-14 pt-8 sm:pt-10 border-t border-gray-700"
         >
-          <div className="flex items-center gap-2 mb-6">
-            <span className="w-1 h-6 bg-yellow-500 rounded-full"></span>
-            <h3 className="text-lg sm:text-xl font-extrabold uppercase tracking-wider">
-              Our Social Media
-            </h3>
-          </div>
-          <div className="flex flex-wrap gap-4">
-            {socialLinks.map((social, index) => (
+          <h3 className="text-base sm:text-lg lg:text-xl font-extrabold uppercase tracking-wider mb-5 sm:mb-6 flex items-center gap-2">
+            <span className="w-1 h-5 sm:h-6 bg-yellow-500 rounded-full"></span>
+            Our Social Media
+          </h3>
+          <div className="flex flex-wrap gap-3 sm:gap-4 justify-center sm:justify-start">
+            {socialLinks.map((social, i) => (
               <motion.a
-                key={index}
+                key={i}
                 href={social.href}
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={social.label}
-                whileHover={{ scale: 1.1, y: -5 }}
-                whileTap={{ scale: 0.95 }}
-                className={`p-4 bg-gray-700 rounded-xl ${social.color} transition-all shadow-lg hover:shadow-2xl`}
+                whileHover={{ scale: 1.15, y: -6 }}
+                whileTap={{ scale: 0.9 }}
+                className={`p-3 sm:p-4 rounded-full bg-gray-800/60 backdrop-blur-md shadow-md ${social.color} transition-all hover:shadow-yellow-400/30`}
               >
-                <social.icon size={24} />
+                <social.icon
+                  fontSize="medium"
+                  className="text-xl sm:text-2xl"
+                />
               </motion.a>
             ))}
           </div>
         </motion.div>
 
-        {/* Certification Badges */}
+        {/* Logo */}
         <motion.div
           variants={itemVariants}
-          className="mt-12 sm:mt-16 pt-8 sm:pt-12 border-t-2 border-gray-700"
+          className="mt-10 sm:mt-12 lg:mt-14 pt-8 sm:pt-10 border-t border-gray-700 flex justify-center"
         >
-          <div className="flex flex-wrap items-center justify-center gap-6 sm:gap-8">
+          <motion.div
+            whileHover={{ scale: 1.15, rotate: 3 }}
+            transition={{ type: "spring", stiffness: 250 }}
+            className="p-4 sm:p-6 rounded-2xl sm:rounded-3xl bg-gray-900 border-2 sm:border-4 border-yellow-500 shadow-xl relative"
+          >
             <motion.div
-              whileHover={{ scale: 1.1 }}
-              className="p-4 bg-white rounded-2xl shadow-lg"
-            >
-              <img
-                src="https://placehold.co/120x120/f3f4f6/422006?text=ISO+Certified"
-                alt="ISO Certification"
-                className="h-16 sm:h-20 w-auto"
-              />
-            </motion.div>
-            <motion.div
-              whileHover={{ scale: 1.1 }}
-              className="p-4 bg-white rounded-2xl shadow-lg"
-            >
-              <img
-                src="https://placehold.co/120x120/f3f4f6/422006?text=Quality+Management"
-                alt="Quality Management"
-                className="h-16 sm:h-20 w-auto"
-              />
-            </motion.div>
-            <motion.div
-              whileHover={{ scale: 1.1 }}
-              className="p-4 bg-white rounded-2xl shadow-lg"
-            >
-              <img
-                src="https://placehold.co/120x120/f3f4f6/422006?text=Accredited"
-                alt="Accreditation Badge"
-                className="h-16 sm:h-20 w-auto"
-              />
-            </motion.div>
-          </div>
+              animate={{ scale: [1, 1.05, 1] }}
+              transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+              className="absolute inset-0 rounded-2xl sm:rounded-3xl border-2 sm:border-4 border-yellow-400/40"
+            ></motion.div>
+            <img
+              src="/footerimg.jpg"
+              alt="Certification"
+              className="h-20 sm:h-24 lg:h-30 w-auto object-contain bg-black rounded-xl sm:rounded-2xl shadow-md p-2 sm:p-3 relative z-10"
+            />
+          </motion.div>
+        </motion.div>
+
+        {/* Bottom Bar */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          className="mt-10 sm:mt-12 lg:mt-14 border-t border-gray-700 pt-5 sm:pt-6"
+        >
+          <p className="text-center text-xs sm:text-sm text-gray-400 px-4">
+            © {currentYear} JAYSHREE INFRASTRUCTURES. All rights reserved.
+          </p>
         </motion.div>
       </motion.div>
 
-      {/* Bottom Bar */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true }}
-        className="border-t-2 border-gray-700 bg-gray-900/50 backdrop-blur-sm"
-      >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-gray-400">
-            <p className="text-center sm:text-left">
-              Copyright © {currentYear} JAYSHREE INFRASTRUCTURES. All rights
-              reserved.
-            </p>
-            <div className="flex items-center gap-4 sm:gap-6">
-              <Link
-                to="/privacy"
-                className="hover:text-yellow-400 transition-colors font-medium"
-              >
-                Privacy & Legal
-              </Link>
-              <span className="text-gray-600">|</span>
-              <Link
-                to="/sitemap"
-                className="hover:text-yellow-400 transition-colors font-medium"
-              >
-                Sitemap
-              </Link>
-            </div>
-          </div>
-        </div>
-      </motion.div>
-
-      {/* Decorative Bottom Accent */}
-      <div className="h-1 bg-gradient-to-r from-yellow-400 via-yellow-500 to-yellow-600"></div>
+      {/* Decorative Accent Line */}
+      <div className="h-0.5 sm:h-1 bg-gradient-to-r from-yellow-400 via-yellow-500 to-yellow-600 shadow-lg"></div>
     </footer>
   );
 };

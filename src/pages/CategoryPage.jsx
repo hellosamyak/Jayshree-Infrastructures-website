@@ -3,10 +3,10 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, ChevronRight } from "lucide-react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 
-// Import refactored components and hooks/data
-import ToCSidebar from "../components/ToCSidebar";
-import { useActiveHeading } from "../hooks/useActiveHeading";
-import { menuItems, getCategoryLinks } from "../utils/data";
+// Assuming these are in separate files as discussed
+import ToCSidebar from "../components/ToCSidebar"; // Make sure this path is correct
+import { useActiveHeading } from "../hooks/useActiveHeading"; // Make sure this path is correct
+import { menuItems, getCategoryLinks } from "../utils/data"; // Make sure this path is correct
 
 // Animation variants
 const pageVariants = {
@@ -200,10 +200,7 @@ const CategoryPage = () => {
           className="relative group overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300"
         >
           <img
-            src={`https://placehold.co/600x400/fff3cd/422006?text=Image+for+${link.cleanLabel.replace(
-              /[^a-zA-Z]/g,
-              ""
-            )}`}
+            src={link.image} // Use the image from the link object
             alt={`Visual representation of ${link.cleanLabel}`}
             className="w-full h-auto rounded-xl border-2 border-gray-200 group-hover:scale-105 transition-transform duration-500"
             onError={(e) => {

@@ -1,7 +1,7 @@
 import { useState, useCallback, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link, NavLink } from "react-router-dom";
-import { ChevronDown, Menu, X, Sparkles } from "lucide-react";
+import { ChevronDown, Menu, X } from "lucide-react";
 
 // Import data and utility functions from the centralized data file
 import { menuItems, slugify } from "../utils/data";
@@ -87,19 +87,16 @@ export default function Navbar() {
     };
   }, [isMobileMenuOpen]);
 
-  // Close all menus when hovering stops (Desktop only)
   const handleMouseLeave = () => {
     if (!isMobileMenuOpen) {
       setHovered(null);
     }
   };
 
-  // Toggle sub-menu on mobile click
   const handleMobileMenuClick = (label) => {
     setHovered(hovered === label ? null : label);
   };
 
-  // Function to close mobile menu after link click
   const closeMobileMenu = useCallback(() => {
     setIsMobileMenuOpen(false);
     setHovered(null);
@@ -107,50 +104,50 @@ export default function Navbar() {
 
   return (
     <nav className="fixed top-0 left-0 w-full z-50 font-sans">
-      {/* Top Bar (Header) */}
       <motion.div
         initial={{ y: -100 }}
         animate={{ y: 0 }}
         transition={{ duration: 0.5, ease: "easeOut" }}
         className={`
-          flex items-center justify-between px-4 sm:px-6 lg:px-10 xl:px-12 py-3 sm:py-4
-          backdrop-blur-md shadow-2xl transition-all duration-300
+          relative flex items-center justify-between px-4 sm:px-6 lg:px-10 xl:px-12 py-3 sm:py-4
+          bg-gradient-to-br from-gray-950 via-gray-900 to-gray-950 text-white
+          backdrop-blur-lg shadow-2xl transition-all duration-300 border-b
           ${
             scrolled
-              ? "bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 shadow-yellow-500/10"
-              : "bg-gradient-to-r from-[#0f1a2b]/95 via-[#1a2b45]/95 to-[#0f1a2b]/95"
+              ? "border-gray-700/80 shadow-yellow-400/10"
+              : "border-transparent"
           }
         `}
       >
-        {/* Logo */}
+        {/* Glow Accent - Copied from Footer for consistency */}
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(255,215,0,0.08),transparent)] pointer-events-none"></div>
+
+        {/* Logo - Matched styling with Footer */}
         <Link to="/" className="flex-shrink-0 group" onClick={closeMobileMenu}>
           <motion.div
-            className="flex items-center gap-2 text-base sm:text-lg md:text-xl lg:text-2xl font-extrabold cursor-pointer"
-            whileHover={{ scale: 1.02 }}
+            className="flex items-center gap-3"
+            whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.98 }}
             transition={{ type: "spring", stiffness: 400, damping: 15 }}
           >
             <motion.div
-              animate={{
-                rotate: [0, 360],
-              }}
-              transition={{
-                duration: 20,
-                repeat: Infinity,
-                ease: "linear",
-              }}
-              className="hidden sm:block"
+              animate={{ rotate: [0, 360] }}
+              transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
             >
-              <Sparkles className="text-yellow-400" size={20} />
+              <img
+                src="/logo.jpg"
+                alt="Logo"
+                className="w-15 h-15 rounded-full object-cover border-2 border-yellow-400 drop-shadow-lg"
+              />
             </motion.div>
-            <span className="bg-gradient-to-r from-white via-yellow-100 to-white bg-clip-text text-transparent group-hover:from-yellow-200 group-hover:via-yellow-400 group-hover:to-yellow-200 transition-all duration-300">
+            <span className="text-2xl sm:text-2xl font-extrabold bg-gradient-to-r from-yellow-400 via-white to-yellow-400 bg-clip-text text-transparent drop-shadow-lg">
               JAYSHREE INFRASTRUCTURES
             </span>
           </motion.div>
         </Link>
 
         {/* Desktop Menu Items */}
-        <ul className="hidden md:flex gap-6 lg:gap-8 xl:gap-10 ml-auto items-center">
+        <ul className="hidden md:flex gap-6 lg:gap-8 xl:gap-10 items-center">
           {Object.keys(menuItems).map((label) => (
             <motion.li
               key={label}
@@ -174,7 +171,6 @@ export default function Navbar() {
                   }
                 >
                   {label}
-                  {/* Underline effect */}
                   <motion.span
                     className="absolute -bottom-1 left-0 h-0.5 bg-gradient-to-r from-yellow-400 to-yellow-600 rounded-full"
                     initial={{ width: 0 }}
@@ -185,7 +181,6 @@ export default function Navbar() {
                   />
                 </NavLink>
 
-                {/* Dropdown Chevron */}
                 <motion.div
                   animate={{
                     rotate: hovered === label ? 180 : 0,
@@ -203,47 +198,38 @@ export default function Navbar() {
         </ul>
 
         {/* Mobile Toggle Button */}
-        <motion.button
-          whileTap={{ scale: 0.9 }}
-          className="md:hidden p-2 rounded-xl hover:bg-yellow-400/20 active:bg-yellow-400/30 transition-all flex-shrink-0 relative overflow-hidden group"
-          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
-        >
-          <motion.div
-            className="absolute inset-0 bg-gradient-to-r from-yellow-400/0 via-yellow-400/20 to-yellow-400/0"
-            animate={{
-              x: ["-100%", "100%"],
-            }}
-            transition={{
-              duration: 2,
-              repeat: Infinity,
-              ease: "linear",
-            }}
-          />
-          <AnimatePresence mode="wait">
-            {isMobileMenuOpen ? (
-              <motion.div
-                key="close"
-                initial={{ rotate: -90, opacity: 0 }}
-                animate={{ rotate: 0, opacity: 1 }}
-                exit={{ rotate: 90, opacity: 0 }}
-                transition={{ duration: 0.2 }}
-              >
-                <X size={24} className="text-yellow-400 relative z-10" />
-              </motion.div>
-            ) : (
-              <motion.div
-                key="menu"
-                initial={{ rotate: 90, opacity: 0 }}
-                animate={{ rotate: 0, opacity: 1 }}
-                exit={{ rotate: -90, opacity: 0 }}
-                transition={{ duration: 0.2 }}
-              >
-                <Menu size={24} className="text-white relative z-10" />
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </motion.button>
+        <div className="flex items-center md:hidden ml-4">
+          <motion.button
+            whileTap={{ scale: 0.9 }}
+            className="p-2 rounded-xl hover:bg-yellow-400/20 active:bg-yellow-400/30 transition-all flex-shrink-0 relative overflow-hidden group"
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
+          >
+            <AnimatePresence mode="sync">
+              {isMobileMenuOpen ? (
+                <motion.div
+                  key="close"
+                  initial={{ rotate: -90, opacity: 0 }}
+                  animate={{ rotate: 0, opacity: 1 }}
+                  exit={{ rotate: 90, opacity: 0 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <X size={24} className="text-yellow-400 relative z-10" />
+                </motion.div>
+              ) : (
+                <motion.div
+                  key="menu"
+                  initial={{ rotate: 90, opacity: 0 }}
+                  animate={{ rotate: 0, opacity: 1 }}
+                  exit={{ rotate: -90, opacity: 0 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <Menu size={24} className="text-white relative z-10" />
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </motion.button>
+        </div>
       </motion.div>
 
       {/* DESKTOP MEGA DROPDOWN */}
@@ -254,15 +240,13 @@ export default function Navbar() {
             initial="initial"
             animate="animate"
             exit="exit"
-            className="hidden md:block absolute left-0 w-full bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 backdrop-blur-xl shadow-2xl overflow-hidden border-t-2 border-yellow-400/30"
+            className="hidden md:block absolute left-0 w-full bg-gradient-to-br from-gray-950 via-gray-900 to-gray-950 backdrop-blur-xl shadow-2xl overflow-hidden border-t border-yellow-500"
             onMouseEnter={() => setHovered(hovered)}
             onMouseLeave={handleMouseLeave}
           >
-            {/* Decorative gradient overlay */}
-            <div className="absolute inset-0 bg-gradient-to-r from-yellow-400/5 via-transparent to-yellow-400/5 pointer-events-none" />
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(255,215,0,0.06),transparent)] pointer-events-none" />
 
             <motion.div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-10 px-6 sm:px-8 lg:px-10 py-8 lg:py-10 relative z-10">
-              {/* Left side tagline */}
               <motion.div
                 initial={{ x: -30, opacity: 0 }}
                 animate={{ x: 0, opacity: 1 }}
@@ -292,11 +276,10 @@ export default function Navbar() {
                   animate={{ opacity: 1 }}
                   transition={{ delay: 0.3 }}
                 >
-                  Explore our comprehensive solutions and services
+                  Explore our comprehensive solutions and services.
                 </motion.p>
               </motion.div>
 
-              {/* Right side links */}
               <div className="lg:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6">
                 {menuItems[hovered].links.map((col, colIdx) => (
                   <div key={colIdx} className="space-y-2">
@@ -349,7 +332,6 @@ export default function Navbar() {
       <AnimatePresence>
         {isMobileMenuOpen && (
           <>
-            {/* Backdrop */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -359,13 +341,12 @@ export default function Navbar() {
               onClick={closeMobileMenu}
             />
 
-            {/* Mobile Menu Panel */}
             <motion.div
               variants={mobileMenuVariants}
               initial="initial"
               animate="animate"
               exit="exit"
-              className="md:hidden fixed right-0 top-[60px] sm:top-[68px] bottom-0 w-[85%] max-w-sm bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 overflow-y-auto z-50 shadow-2xl border-l-2 border-yellow-400/30"
+              className="md:hidden fixed right-0 top-[68px] sm:top-[76px] bottom-0 w-[85%] max-w-sm bg-gradient-to-br from-gray-950 via-gray-900 to-gray-900 overflow-y-auto z-50 shadow-2xl border-l-2 border-yellow-500"
             >
               <div className="flex flex-col space-y-1 p-4 sm:p-6">
                 {Object.keys(menuItems).map((label, idx) => (
@@ -406,7 +387,6 @@ export default function Navbar() {
                       </motion.button>
                     </div>
 
-                    {/* Mobile Sub-menu content */}
                     <AnimatePresence>
                       {hovered === label && (
                         <motion.div
@@ -464,23 +444,27 @@ export default function Navbar() {
                 ))}
               </div>
 
-              {/* Footer decoration */}
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.5 }}
                 className="p-6 border-t border-gray-700/50"
               >
-                <div className="flex items-center justify-center gap-2">
-                  <div className="w-2 h-2 rounded-full bg-yellow-400 animate-pulse" />
-                  <div className="w-2 h-2 rounded-full bg-yellow-500 animate-pulse delay-75" />
-                  <div className="w-2 h-2 rounded-full bg-yellow-600 animate-pulse delay-150" />
-                </div>
+                <Link
+                  to="/inquiryform"
+                  onClick={closeMobileMenu}
+                  className="w-full text-center inline-flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-yellow-500 to-yellow-600 text-white font-bold rounded-xl hover:from-yellow-600 hover:to-yellow-700 transition-all shadow-lg hover:shadow-yellow-400/40"
+                >
+                  Submit Project Inquiry
+                </Link>
               </motion.div>
             </motion.div>
           </>
         )}
       </AnimatePresence>
+
+      {/* Decorative Accent Line - Copied from Footer */}
+      <div className="h-1 bg-gradient-to-r from-yellow-400 via-yellow-500 to-yellow-600 shadow-lg"></div>
     </nav>
   );
 }
