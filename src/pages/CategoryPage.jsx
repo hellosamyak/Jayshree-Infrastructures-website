@@ -156,10 +156,10 @@ const CategoryPage = () => {
           </span>
         </h2>
       </div>
+      {/* --- DYNAMIC CONTENT STARTS HERE --- */}
       <p className="text-base sm:text-lg leading-relaxed text-gray-700">
-        JAYSHREE's commitment to {link.cleanLabel.toLowerCase()} is deeply woven
-        into our operational framework. This section details our principles and
-        practices.
+        {link.description || // Use content from data.js
+          `JAYSHREE's commitment to ${link.cleanLabel.toLowerCase()} is deeply woven into our operational framework. This section details our principles and practices.`}
       </p>
       <div className="grid sm:grid-cols-1 md:grid-cols-2 gap-8 py-6">
         <motion.div
@@ -188,42 +188,43 @@ const CategoryPage = () => {
           transition={{ delay: 0.4 }}
           className="space-y-4 bg-white p-6 rounded-xl shadow-md border border-gray-100"
         >
-          <div>
-            <h4 className="text-xl sm:text-2xl font-bold text-gray-800 mb-3 flex items-center gap-2">
-              <ChevronRight className="text-yellow-600" size={20} />
-              Strategic Pillar
-            </h4>
-            <p className="text-sm sm:text-base text-gray-600 leading-relaxed">
-              Our approach integrates modern techniques for maximum resilience.
-              We focus on continuous improvement to adapt to changing
-              landscapes.
-            </p>
-          </div>
-          <div>
-            <h4 className="text-xl sm:text-2xl font-bold text-gray-800 mb-3 flex items-center gap-2">
-              <ChevronRight className="text-yellow-600" size={20} />
-              Impact Metrics
-            </h4>
-            <ul className="space-y-2 text-sm sm:text-base text-gray-600">
-              {[
-                "Over 95% on-time project completion.",
-                "15% reduction in carbon footprint since 2020.",
-                "Zero Lost Time Injury (LTI) rate maintained.",
-              ].map((item, i) => (
-                <motion.li
-                  key={i}
-                  initial={{ opacity: 0, x: -10 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: 0.5 + i * 0.1 }}
-                  className="flex items-start gap-2"
-                >
-                  <span className="text-yellow-600 font-bold mt-1">•</span>
-                  <span>{item}</span>
-                </motion.li>
-              ))}
-            </ul>
-          </div>
+          {/* Dynamic Pillar Section */}
+          {link.pillar && (
+            <div>
+              <h4 className="text-xl sm:text-2xl font-bold text-gray-800 mb-3 flex items-center gap-2">
+                <ChevronRight className="text-yellow-600" size={20} />
+                {link.pillar.title || "Strategic Pillar"}
+              </h4>
+              <p className="text-sm sm:text-base text-gray-600 leading-relaxed">
+                {link.pillar.text ||
+                  "Our approach integrates modern techniques for maximum resilience."}
+              </p>
+            </div>
+          )}
+          {/* Dynamic Metrics Section */}
+          {link.metrics && link.metrics.length > 0 && (
+            <div>
+              <h4 className="text-xl sm:text-2xl font-bold text-gray-800 mb-3 flex items-center gap-2">
+                <ChevronRight className="text-yellow-600" size={20} />
+                Impact Metrics
+              </h4>
+              <ul className="space-y-2 text-sm sm:text-base text-gray-600">
+                {link.metrics.map((item, i) => (
+                  <motion.li
+                    key={i}
+                    initial={{ opacity: 0, x: -10 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: 0.5 + i * 0.1 }}
+                    className="flex items-start gap-2"
+                  >
+                    <span className="text-yellow-600 font-bold mt-1">•</span>
+                    <span>{item}</span>
+                  </motion.li>
+                ))}
+              </ul>
+            </div>
+          )}
         </motion.div>
       </div>
       {/* Spacer to ensure last item can be activated by scroll spy */}
@@ -239,7 +240,7 @@ const CategoryPage = () => {
       initial="initial"
       animate="animate"
       exit="exit"
-      className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100 pt-24 sm:pt-28 md:pt-32 pb-12 font-sans overflow-x-hidden"
+      className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100 pt-24 sm:pt-28 md:pt-32 pb-12 font-sans"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.header
@@ -253,16 +254,6 @@ const CategoryPage = () => {
             {tagline}
           </h1>
         </motion.header>
-        <motion.button
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 0.5 }}
-          onClick={() => setIsMobileToCOpen(true)}
-          className="lg:hidden w-full p-3 sm:p-4 bg-gradient-to-r from-yellow-500 to-yellow-600 text-white font-bold rounded-xl mb-8 flex items-center justify-center gap-2 shadow-lg hover:shadow-xl hover:from-yellow-600 hover:to-yellow-700 active:scale-95 transition-all duration-200"
-        >
-          <Menu size={20} />
-          Show Table of Contents
-        </motion.button>
         <div className="grid lg:grid-cols-12 gap-8 md:gap-12">
           <motion.div
             variants={contentVariants}
@@ -279,7 +270,7 @@ const CategoryPage = () => {
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.6 }}
-              className="hidden lg:block lg:sticky lg:top-28"
+              className="hidden lg:block lg:sticky lg:top-28" // Moved classes here
             >
               <ToCSidebar
                 activeSlug={activeSlug}
@@ -289,48 +280,6 @@ const CategoryPage = () => {
             </motion.div>
           </aside>
         </div>
-        <AnimatePresence>
-          {isMobileToCOpen && (
-            <>
-              <motion.div
-                variants={overlayVariants}
-                initial="initial"
-                animate="animate"
-                exit="exit"
-                transition={{ duration: 0.3 }}
-                className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 lg:hidden"
-                onClick={() => setIsMobileToCOpen(false)}
-              />
-              <motion.div
-                variants={slideUpVariants}
-                initial="initial"
-                animate="animate"
-                exit="exit"
-                className="fixed inset-x-0 bottom-0 h-[85vh] bg-gradient-to-b from-gray-900 to-gray-800 z-50 lg:hidden overflow-y-auto rounded-t-3xl shadow-2xl"
-              >
-                <div className="sticky top-0 bg-gray-900/95 backdrop-blur-md z-10 px-4 py-3 border-b border-gray-700 flex items-center justify-between">
-                  <h3 className="text-white font-bold text-lg">
-                    Table of Contents
-                  </h3>
-                  <button
-                    onClick={() => setIsMobileToCOpen(false)}
-                    className="text-white hover:text-yellow-400 transition-colors p-2 hover:bg-white/10 rounded-lg"
-                  >
-                    <X size={24} />
-                  </button>
-                </div>
-                <div className="p-4 sm:p-6">
-                  <ToCSidebar
-                    activeSlug={activeSlug}
-                    links={links}
-                    category={category}
-                    onLinkClick={() => setIsMobileToCOpen(false)}
-                  />
-                </div>
-              </motion.div>
-            </>
-          )}
-        </AnimatePresence>
       </div>
     </motion.div>
   );

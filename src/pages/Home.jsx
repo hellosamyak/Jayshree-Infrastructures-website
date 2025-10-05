@@ -332,7 +332,7 @@ function Home() {
                   variants={fadeInUp}
                   className="text-2xl sm:text-4xl md:text-5xl font-extrabold text-gray-900 leading-tight"
                 >
-                  Building the Nation's{" "}
+                  Building Central India's{" "}
                   <span className="bg-gradient-to-r from-yellow-600 to-yellow-500 bg-clip-text text-transparent">
                     Infrastructure
                   </span>
@@ -343,20 +343,24 @@ function Home() {
                 variants={fadeInUp}
                 className="text-sm sm:text-lg text-gray-700 leading-relaxed"
               >
-                For over three decades, JAYSHREE has been at the forefront of
-                India's infrastructure revolution. From roads to bridges,
-                tunnels to urban development, we transform visions into reality
-                with precision engineering and unwavering commitment.
+                Every road built, every bridge completed, every home designed —
+                at JAYSHREE INFRASTRUCTURES, we see these not as projects but as
+                contributions to society’s growth. Established 5 years ago in
+                Jabalpur, Madhya Pradesh, we specialize in roads & highways,
+                duplexes & residential apartments, interior design, and bridges
+                & tunnels, and we proudly execute contracts for the Government
+                through PWD tenders.
               </motion.p>
 
               <motion.p
                 variants={fadeInUp}
                 className="text-sm sm:text-lg text-gray-700 leading-relaxed"
               >
-                Our journey from humble beginnings to becoming one of India's
-                largest EPC groups is characterized by hard work, respect for
-                relationships, and a relentless drive to excel in everything we
-                undertake.
+                Our journey began with a single vision: to create infrastructure
+                that not only supports economic progress but also improves
+                everyday lives. Today, we stand as a trusted name in Central
+                India’s infrastructure sector, known for engineering excellence,
+                ethical practices, and innovation-driven solutions.
               </motion.p>
 
               <motion.div
@@ -366,11 +370,11 @@ function Home() {
                 {[
                   {
                     icon: Eye,
-                    text: "Vision-driven approach to infrastructure development",
+                    text: "Clients: Government (PWD), Private Sector, Residential Buyers",
                   },
                   {
                     icon: Target,
-                    text: "Excellence in engineering and project execution",
+                    text: "Philosophy: “Building Infrastructure, Building Trust.”",
                   },
                   {
                     icon: Shield,

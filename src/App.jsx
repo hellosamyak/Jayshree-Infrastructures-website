@@ -1,5 +1,4 @@
 import React from "react";
-// REMOVED: BrowserRouter (Router) import
 import { Routes, Route, useParams } from "react-router-dom";
 import CategoryPage from "./pages/CategoryPage";
 import Navbar from "./components/Navbar";

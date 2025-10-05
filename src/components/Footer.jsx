@@ -9,6 +9,7 @@ import {
   Waypoints,
   Building,
   Wallpaper,
+  ChevronRight,
 } from "lucide-react";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import XIcon from "@mui/icons-material/X";
@@ -94,38 +95,41 @@ const Footer = () => {
         viewport={{ once: true }}
         className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14 lg:py-24"
       >
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-y-10 sm:gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-y-10 sm:gap-8 items-start">
           {/* Company Info */}
           <motion.div
             variants={itemVariants}
             className="md:col-span-2 lg:col-span-2 text-center md:text-left flex flex-col items-center md:items-start"
           >
-            <Link to="/" className="inline-block group mb-6 sm:mb-8">
-              <motion.div
-                whileHover={{ scale: 1.08 }}
-                transition={{ duration: 0.3 }}
-                className="flex items-center gap-2 sm:gap-3"
-              >
-                <motion.div
-                  animate={{ rotate: [0, 360] }}
-                  transition={{
-                    duration: 30,
-                    repeat: Infinity,
-                    ease: "linear",
-                  }}
-                  className="relative"
-                >
-                  <img
-                    src="/logo.jpg"
-                    alt="Logo"
-                    className="w-12 h-12 sm:w-16 sm:h-16 border-2 border-yellow-400 rounded-full object-cover drop-shadow-lg"
-                  />
-                </motion.div>
-                <span className="text-xl sm:text-2xl lg:text-3xl font-extrabold bg-gradient-to-r from-yellow-400 via-white to-yellow-400 bg-clip-text text-transparent drop-shadow-lg">
-                  JAYSHREE
+            <div className="mb-6 sm:mb-8">
+              <h3 className="text-base sm:text-lg lg:text-xl font-extrabold uppercase tracking-wider inline-flex items-start gap-3">
+                <Link to="/" className="inline-block group">
+                  <motion.div
+                    whileHover={{ scale: 1.08 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <motion.div
+                      animate={{ rotate: [0, 360] }}
+                      transition={{
+                        duration: 30,
+                        repeat: Infinity,
+                        ease: "linear",
+                      }}
+                      className="relative"
+                    >
+                      <img
+                        src="/logo.jpg"
+                        alt="Logo"
+                        className="w-12 h-12 sm:w-16 sm:h-16 border-2 border-yellow-400 rounded-full object-cover drop-shadow-lg"
+                      />
+                    </motion.div>
+                  </motion.div>
+                </Link>
+                <span className="text-sm sm:text-lg md:text-2xl text-transparent bg-clip-text drop-shadow-lg font-extrabold bg-gradient-to-r from-yellow-400 via-white to-yellow-400 pt-2 sm:pt-4">
+                  JAYSHREE INFRASTRUCTURES
                 </span>
-              </motion.div>
-            </Link>
+              </h3>
+            </div>
 
             <p className="text-gray-400 leading-relaxed mb-5 sm:mb-6 text-sm sm:text-base max-w-md">
               The fastest growing Engineering, Procurement and Construction
@@ -136,6 +140,14 @@ const Footer = () => {
             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
               <Link
                 to="/inquiryform"
+                // Add this onClick handler
+                onClick={() => {
+                  window.scrollTo({
+                    top: 0,
+                    left: 0,
+                    behavior: "smooth", // or "auto" for an instant jump
+                  });
+                }}
                 className="inline-flex items-center justify-center gap-2 px-5 sm:px-6 py-2.5 sm:py-3 bg-gradient-to-r from-yellow-500 to-yellow-600 text-white text-sm sm:text-base font-bold rounded-xl hover:from-yellow-600 hover:to-yellow-700 transition-all shadow-lg hover:shadow-yellow-400/40 w-full sm:w-auto"
               >
                 Submit Project Inquiry
@@ -154,15 +166,22 @@ const Footer = () => {
             variants={itemVariants}
             className="text-center md:text-left"
           >
-            <h3 className="text-base sm:text-lg lg:text-xl font-extrabold uppercase tracking-wider mb-4 sm:mb-6 inline-flex items-center gap-2">
-              <span className="w-1 h-5 sm:h-6 bg-yellow-500 rounded-full"></span>
-              Quick Links
+            <h3 className="text-base sm:text-lg lg:text-xl font-extrabold uppercase tracking-wider mb-4 sm:mb-6 inline-flex items-start gap-2">
+              <span className="w-1 h-5 sm:h-6 bg-yellow-500 rounded-full mt-2 sm:mt-3"></span>
+              <span className="pt-2 sm:pt-4">Quick Links</span>
             </h3>
             <nav className="space-y-2.5 sm:space-y-3">
               {quickLinks.map((link, i) => (
                 <motion.div key={i} whileHover={{ x: 6 }}>
                   <Link
                     to={link.path}
+                    onClick={() => {
+                      window.scrollTo({
+                        top: 0,
+                        left: 0,
+                        behavior: "smooth", // You can change this to "auto" for an instant jump
+                      });
+                    }}
                     className="inline-flex items-center gap-2.5 sm:gap-3 text-gray-400 hover:text-yellow-400 transition-colors group text-sm sm:text-base"
                   >
                     <link.icon
@@ -181,9 +200,9 @@ const Footer = () => {
             variants={itemVariants}
             className="md:col-span-2 lg:col-span-2 text-center md:text-left"
           >
-            <h3 className="text-base sm:text-lg lg:text-xl font-extrabold uppercase tracking-wider mb-4 sm:mb-6 inline-flex items-center gap-2">
-              <span className="w-1 h-5 sm:h-6 bg-yellow-500 rounded-full"></span>
-              Our Projects
+            <h3 className="text-base sm:text-lg lg:text-xl font-extrabold uppercase tracking-wider mb-4 sm:mb-6 inline-flex items-start gap-2">
+              <span className="w-1 h-5 sm:h-6 bg-yellow-500 rounded-full mt-2 sm:mt-3"></span>
+              <span className="pt-2 sm:pt-4">Our Projects</span>
             </h3>
             <nav className="grid grid-cols-2 gap-y-2.5 gap-x-4 sm:gap-y-3">
               {projectLinks.map((link, i) => (
@@ -194,6 +213,13 @@ const Footer = () => {
                 >
                   <Link
                     to={link.path}
+                    onClick={() => {
+                      window.scrollTo({
+                        top: 0,
+                        left: 0,
+                        behavior: "smooth", // You can change this to "auto" for an instant jump
+                      });
+                    }}
                     className="flex items-center gap-2.5 sm:gap-3 text-gray-400 hover:text-yellow-400 transition-colors group text-sm sm:text-base"
                   >
                     <link.icon
