@@ -2,8 +2,6 @@ import { useState, useCallback, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link, NavLink } from "react-router-dom";
 import { ChevronDown, Menu, X } from "lucide-react";
-
-// Import data and utility functions from the centralized data file
 import { menuItems, slugify } from "../utils/data";
 
 // Animation variants
@@ -109,7 +107,7 @@ export default function Navbar() {
         animate={{ y: 0 }}
         transition={{ duration: 0.5, ease: "easeOut" }}
         className={`
-          relative flex items-center justify-between px-3 sm:px-6 lg:px-10 xl:px-12 py-2 sm:py-4
+          relative flex items-center justify-between px-3 sm:px-6 lg:px-10 xl:px-12 py-3 sm:py-5
           bg-gradient-to-br from-gray-950 via-gray-900 to-gray-950 text-white
           backdrop-blur-lg shadow-2xl transition-all duration-300 border-b
           ${
@@ -117,13 +115,18 @@ export default function Navbar() {
               ? "border-gray-700/80 shadow-yellow-400/10"
               : "border-transparent"
           }
+          relative z-60
         `}
       >
         {/* Glow Accent - Copied from Footer for consistency */}
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(255,215,0,0.08),transparent)] pointer-events-none"></div>
 
         {/* Logo - Matched styling with Footer */}
-        <Link to="/" className="flex-shrink-0 group" onClick={closeMobileMenu}>
+        <Link
+          to="/"
+          className="flex-shrink-0 group relative z-10"
+          onClick={closeMobileMenu}
+        >
           <motion.div
             className="flex items-center gap-2 sm:gap-3"
             whileHover={{ scale: 1.05 }}
@@ -140,11 +143,19 @@ export default function Navbar() {
                 className="w-10 h-10 sm:w-12 sm:h-12 rounded-full object-cover border-2 border-yellow-400 drop-shadow-lg flex-shrink-0"
               />
             </motion.div>
-            <span className="text-sm sm:text-lg md:text-2xl font-extrabold bg-gradient-to-r from-yellow-400 via-white to-yellow-400 bg-clip-text text-transparent drop-shadow-lg whitespace-nowrap">
+            {/* Text hidden on mobile, shown on desktop */}
+            <span className="hidden md:block text-sm sm:text-lg md:text-2xl font-extrabold bg-gradient-to-r from-yellow-400 via-white to-yellow-400 bg-clip-text text-transparent drop-shadow-lg whitespace-nowrap">
               JAYSHREE INFRASTRUCTURES
             </span>
           </motion.div>
         </Link>
+
+        {/* Centered title for mobile */}
+        <div className="md:hidden absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full text-center pointer-events-none">
+          <span className="text-lg font-extrabold bg-gradient-to-r from-yellow-400 via-white to-yellow-400 bg-clip-text text-transparent drop-shadow-lg whitespace-nowrap">
+            JAYSHREE INFRASTRUCTURES
+          </span>
+        </div>
 
         {/* Desktop Menu Items */}
         <ul className="hidden md:flex gap-6 lg:gap-8 xl:gap-10 items-center">
@@ -198,14 +209,14 @@ export default function Navbar() {
         </ul>
 
         {/* Mobile Toggle Button */}
-        <div className="flex items-center md:hidden ml-auto">
+        <div className="flex items-center md:hidden ml-auto relative z-10">
           <motion.button
             whileTap={{ scale: 0.9 }}
             className="p-2 rounded-xl hover:bg-yellow-400/20 active:bg-yellow-400/30 transition-all flex-shrink-0 relative overflow-hidden group"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
           >
-            <AnimatePresence mode="sync">
+            <AnimatePresence mode="wait">
               {isMobileMenuOpen ? (
                 <motion.div
                   key="close"
@@ -346,7 +357,7 @@ export default function Navbar() {
               initial="initial"
               animate="animate"
               exit="exit"
-              className="md:hidden fixed right-0 top-[68px] sm:top-[76px] bottom-0 w-[85%] max-w-sm bg-gradient-to-br from-gray-950 via-gray-900 to-gray-900 overflow-y-auto z-50 shadow-2xl border-l-2 border-yellow-500"
+              className="md:hidden fixed right-0 top-[76px] sm:top-[84px] bottom-0 w-[85%] max-w-sm bg-gradient-to-br from-gray-950 via-gray-900 to-gray-900 overflow-y-auto z-50 shadow-2xl border-l-2 border-yellow-500"
             >
               <div className="flex flex-col space-y-1 p-4 sm:p-6">
                 {Object.keys(menuItems).map((label, idx) => (

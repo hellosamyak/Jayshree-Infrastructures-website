@@ -94,11 +94,11 @@ const Footer = () => {
         viewport={{ once: true }}
         className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14 lg:py-24"
       >
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-10 lg:gap-14">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-12 lg:gap-14">
           {/* Company Info */}
           <motion.div
             variants={itemVariants}
-            className="sm:col-span-2 lg:col-span-1"
+            className="lg:col-span-1 flex flex-col items-center text-center lg:items-start lg:text-left"
           >
             <Link to="/" className="inline-block group mb-6 sm:mb-8">
               <motion.div
@@ -127,7 +127,7 @@ const Footer = () => {
               </motion.div>
             </Link>
 
-            <p className="text-gray-400 leading-relaxed mb-5 sm:mb-6 text-sm sm:text-base">
+            <p className="text-gray-400 leading-relaxed mb-5 sm:mb-6 text-sm sm:text-base max-w-md mx-auto lg:mx-0">
               The fastest growing Engineering, Procurement and Construction
               (EPC) company in Madhya Pradesh, JAYSHREE INFRASTRUCTURES is
               aligning with India's growth vision.
@@ -150,12 +150,15 @@ const Footer = () => {
           </motion.div>
 
           {/* Quick Links */}
-          <motion.div variants={itemVariants}>
+          <motion.div
+            variants={itemVariants}
+            className="flex flex-col items-center lg:items-start"
+          >
             <h3 className="text-base sm:text-lg lg:text-xl font-extrabold uppercase tracking-wider mb-4 sm:mb-6 flex items-center gap-2">
               <span className="w-1 h-5 sm:h-6 bg-yellow-500 rounded-full"></span>
               Quick Links
             </h3>
-            <nav className="space-y-2.5 sm:space-y-3">
+            <nav className="space-y-2.5 sm:space-y-3 flex flex-col items-center lg:items-start">
               {quickLinks.map((link, i) => (
                 <motion.div key={i} whileHover={{ x: 6 }}>
                   <Link
@@ -176,15 +179,19 @@ const Footer = () => {
           {/* Our Projects */}
           <motion.div
             variants={itemVariants}
-            className="sm:col-span-2 lg:col-span-2"
+            className="lg:col-span-2 flex flex-col items-center lg:items-start"
           >
             <h3 className="text-base sm:text-lg lg:text-xl font-extrabold uppercase tracking-wider mb-4 sm:mb-6 flex items-center gap-2">
               <span className="w-1 h-5 sm:h-6 bg-yellow-500 rounded-full"></span>
               Our Projects
             </h3>
-            <nav className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3">
+            <nav className="grid grid-cols-1 sm:grid-cols-2 gap-y-2.5 gap-x-8 sm:gap-y-3 w-full">
               {projectLinks.map((link, i) => (
-                <motion.div key={i} whileHover={{ x: 6 }}>
+                <motion.div
+                  key={i}
+                  whileHover={{ x: 6 }}
+                  className="flex justify-center lg:justify-start"
+                >
                   <Link
                     to={link.path}
                     className="flex items-center gap-2.5 sm:gap-3 text-gray-400 hover:text-yellow-400 transition-colors group text-sm sm:text-base"
@@ -204,13 +211,13 @@ const Footer = () => {
         {/* Social Media */}
         <motion.div
           variants={itemVariants}
-          className="mt-10 sm:mt-12 lg:mt-14 pt-8 sm:pt-10 border-t border-gray-700"
+          className="mt-10 sm:mt-12 lg:mt-14 pt-8 sm:pt-10 border-t border-gray-700 flex flex-col items-center lg:items-start"
         >
           <h3 className="text-base sm:text-lg lg:text-xl font-extrabold uppercase tracking-wider mb-5 sm:mb-6 flex items-center gap-2">
             <span className="w-1 h-5 sm:h-6 bg-yellow-500 rounded-full"></span>
             Our Social Media
           </h3>
-          <div className="flex flex-wrap gap-3 sm:gap-4 justify-center sm:justify-start">
+          <div className="flex flex-wrap gap-3 sm:gap-4 justify-center lg:justify-start">
             {socialLinks.map((social, i) => (
               <motion.a
                 key={i}
