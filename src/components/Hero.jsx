@@ -2,12 +2,16 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 
 export default function HeroSection() {
-  const [showTextOverlay, setShowTextOverlay] = useState(true);
+  // State to control the visibility of the text overlay.
+  // Text will appear after the video has started loading or if it fails.
+  const [showTextOverlay, setShowTextOverlay] = useState(false);
 
+  // When the video data is loaded, show the text.
   const handleVideoLoad = () => {
-    setShowTextOverlay(false);
+    setShowTextOverlay(true);
   };
 
+  // If the video fails to load, still show the text content.
   const handleVideoError = () => {
     setShowTextOverlay(true);
   };
@@ -27,51 +31,72 @@ export default function HeroSection() {
         <source src="/video/background.mp4" type="video/mp4" />
       </video>
 
-      {/* Mobile Video (9:16 portrait or fallback) */}
-      <video
-        className="block md:hidden absolute top-0 left-0 w-full h-full object-cover"
-        autoPlay
-        loop
-        muted
-        playsInline
-        onLoadedData={handleVideoLoad}
-        onError={handleVideoError}
-      >
-        {/* Try to load a mobile-optimized vertical video first */}
-        <source src="/video/background-mobile.mp4" type="video/mp4" />
-        {/* Fallback to desktop video if mobile version doesn't exist */}
-        <source src="/video/background.mp4" type="video/mp4" />
-      </video>
-
-      {/* Gradient Overlay for better text readability on mobile */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/70 md:bg-black/50 pointer-events-none"></div>
-
-      {/* Animated Text Content */}
-      {showTextOverlay && (
-        <motion.div
-          className="text-center px-4 sm:px-6 relative z-10 max-w-4xl mx-auto"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
+      {/* Container for the mobile video effect */}
+      <div className="block md:hidden absolute inset-0 overflow-hidden bg-black">
+        {/* Blurred background video to fill the space */}
+        <video
+          className="absolute top-0 left-0 w-full h-full object-cover transform scale-110 filter blur-lg"
+          autoPlay
+          loop
+          muted
+          playsInline
         >
-          <motion.h1
-            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold mb-3 sm:mb-4 text-white drop-shadow-2xl leading-tight"
-            initial={{ opacity: 0, scale: 0.9 }}
+          <source src="/video/background.mp4" type="video/mp4" />
+        </video>
+
+        {/* New layout container for mobile with info sections and video placeholder */}
+        <div className="relative z-10 flex flex-col justify-center items-center h-full p-6 text-center text-white">
+          {/* Top Information Section */}
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+          >
+            <h2 className="text-3xl font-bold text-amber-400 drop-shadow-md">
+              Pioneering Progress
+            </h2>
+            <p className="text-base text-gray-200 mt-2 max-w-xs mx-auto">
+              Building the foundations for a brighter, more connected future
+              through innovation.
+            </p>
+          </motion.div>
+
+          {/* Video Placeholder */}
+          <motion.div
+            className="relative w-full max-w-md mx-auto my-4 bg-black/20 rounded-lg shadow-2xl overflow-hidden border-2 border-white/20"
+            initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.6 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
           >
-            JAYSHREE INFRASTRUCTURES
-          </motion.h1>
-          <motion.p
-            className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-100 max-w-2xl mx-auto drop-shadow-lg leading-relaxed"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
+            <video
+              className="w-full h-full object-cover"
+              autoPlay
+              loop
+              muted
+              playsInline
+              onLoadedData={handleVideoLoad}
+              onError={handleVideoError}
+            >
+              <source src="/video/background.mp4" type="video/mp4" />
+            </video>
+          </motion.div>
+
+          {/* Bottom Information Section */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
           >
-            From Concept to Creation! Build Your Dream With Us.
-          </motion.p>
-        </motion.div>
-      )}
+            <h2 className="text-3xl font-bold text-amber-400 drop-shadow-md">
+              Built on Trust
+            </h2>
+            <p className="text-base text-gray-200 mt-2 max-w-xs mx-auto">
+              Our legacy is delivering excellence and unparalleled quality,
+              ensuring client satisfaction.
+            </p>
+          </motion.div>
+        </div>
+      </div>
     </div>
   );
 }
