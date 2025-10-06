@@ -144,7 +144,7 @@ export default function Navbar() {
                   className="w-12 h-12 sm:w-16 sm:h-16 rounded-full object-cover border-2 border-yellow-400 drop-shadow-lg flex-shrink-0"
                 />
               </motion.div>
-              <span className="hidden md:block text-sm sm:text-lg md:text-2xl font-extrabold bg-gradient-to-r from-yellow-400 via-white to-yellow-400 bg-clip-text text-transparent drop-shadow-lg whitespace-nowrap">
+              <span className="hidden md:block text-sm sm:text-sm md:text-2xl font-extrabold bg-gradient-to-r from-yellow-400 via-white to-yellow-400 bg-clip-text text-transparent drop-shadow-lg whitespace-nowrap">
                 JAYSHREE INFRASTRUCTURES
               </span>
             </motion.div>
