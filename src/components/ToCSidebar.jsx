@@ -58,7 +58,8 @@ const ToCSidebar = ({ activeSlug, links, category, onLinkClick }) => {
     if (element) {
       // Offset by 100px to account for the fixed header
       const offset = window.innerWidth < 1024 ? 80 : 100;
-      const elementPosition = element.offsetTop - offset;
+      const elementPosition =
+        element.getBoundingClientRect().top + window.scrollY - offset;
 
       window.scrollTo({
         top: elementPosition,

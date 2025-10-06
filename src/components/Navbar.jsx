@@ -129,7 +129,7 @@ export default function Navbar() {
             onClick={closeMobileMenu}
           >
             <motion.div
-              className="flex items-center gap-2 sm:gap-3"
+              className="flex items-center gap-2"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.98 }}
               transition={{ type: "spring", stiffness: 400, damping: 15 }}
@@ -141,18 +141,18 @@ export default function Navbar() {
                 <img
                   src="/logo.jpg"
                   alt="Logo"
-                  className="w-12 h-12 sm:w-16 sm:h-16 rounded-full object-cover border-2 border-yellow-400 drop-shadow-lg flex-shrink-0"
+                  className="w-12 h-12 sm:w-6 sm:h-6 md:h-12 md:w-12 rounded-full object-cover border-2 border-yellow-400 drop-shadow-lg flex-shrink-0"
                 />
               </motion.div>
-              <span className="hidden md:block text-sm sm:text-sm md:text-2xl font-extrabold bg-gradient-to-r from-yellow-400 via-white to-yellow-400 bg-clip-text text-transparent drop-shadow-lg whitespace-nowrap">
+              <span className="hidden md:block text-lg sm:text-lg md:text-2xl font-extrabold bg-gradient-to-r from-yellow-400 via-white to-yellow-400 bg-clip-text text-transparent drop-shadow-lg whitespace-nowrap">
                 JAYSHREE INFRASTRUCTURES
               </span>
             </motion.div>
           </Link>
 
           {/* Centered title for mobile */}
-          <div className="md:hidden absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full text-center pointer-events-none">
-            <span className="text-xl text-center font-extrabold bg-gradient-to-r from-yellow-400 via-white to-yellow-400 bg-clip-text text-transparent drop-shadow-lg whitespace-nowrap">
+          <div className="md:hidden absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full text-center pointer-events-none cursor-pointer">
+            <span className="ml-3 text-md text-center font-extrabold bg-gradient-to-r from-yellow-400 via-white to-yellow-400 bg-clip-text text-transparent drop-shadow-lg whitespace-nowrap">
               JAYSHREE INFRASTRUCTURES
             </span>
           </div>

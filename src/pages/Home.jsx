@@ -540,10 +540,12 @@ function Home() {
                   <p className="text-gray-600 text-xs sm:text-base leading-relaxed">
                     {service.description}
                   </p>
-                  <button className="text-yellow-600 font-semibold flex items-center gap-1 sm:gap-2 group-hover:gap-3 transition-all pt-2 text-sm">
-                    Learn More
-                    <ChevronRight size={16} sm={{ size: 18 }} />
-                  </button>
+                  <Link to="/projects">
+                    <button className="text-yellow-600 font-semibold flex items-center gap-1 sm:gap-2 group-hover:gap-3 transition-all pt-2 text-sm">
+                      Learn More
+                      <ChevronRight size={16} sm={{ size: 18 }} />
+                    </button>
+                  </Link>
                 </div>
               </motion.div>
             ))}

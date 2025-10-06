@@ -102,8 +102,8 @@ const Footer = () => {
             className="md:col-span-2 lg:col-span-2 text-center md:text-left flex flex-col items-center md:items-start"
           >
             <div className="mb-6 sm:mb-8">
-              <h3 className="text-base sm:text-lg lg:text-xl font-extrabold uppercase tracking-wider inline-flex items-start gap-3">
-                <Link to="/" className="inline-block group">
+              <Link to="/" className="inline-block group">
+                <h3 className="inline-flex items-center gap-2 font-extrabold uppercase">
                   <motion.div
                     whileHover={{ scale: 1.08 }}
                     transition={{ duration: 0.3 }}
@@ -120,15 +120,17 @@ const Footer = () => {
                       <img
                         src="/logo.jpg"
                         alt="Logo"
-                        className="w-12 h-12 sm:w-16 sm:h-16 border-2 border-yellow-400 rounded-full object-cover drop-shadow-lg"
+                        // Adjusted responsive sizes for a smooth transition across breakpoints
+                        className="h-12 w-12 rounded-full border-2 border-yellow-400 object-cover drop-shadow-lg sm:h-14 sm:w-14 lg:h-12 lg:w-12 md:h-12 md:w-12"
                       />
                     </motion.div>
                   </motion.div>
-                </Link>
-                <span className="text-sm sm:text-lg md:text-2xl text-transparent bg-clip-text drop-shadow-lg font-extrabold bg-gradient-to-r from-yellow-400 via-white to-yellow-400 pt-2 sm:pt-4">
-                  JAYSHREE INFRASTRUCTURES
-                </span>
-              </h3>
+                  {/* Removed padding-top (pt-*) as items-center handles the alignment now */}
+                  <span className="bg-gradient-to-r from-yellow-400 via-white to-yellow-400 bg-clip-text text-sm font-extrabold text-transparent drop-shadow-lg sm:text-lg md:text-2xl">
+                    JAYSHREE INFRASTRUCTURES
+                  </span>
+                </h3>
+              </Link>
             </div>
 
             <p className="text-gray-400 leading-relaxed mb-5 sm:mb-6 text-sm sm:text-base max-w-md">
